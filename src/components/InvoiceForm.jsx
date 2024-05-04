@@ -11,11 +11,14 @@ import { BiArrowBack } from "react-icons/bi";
 import InputGroup from "react-bootstrap/InputGroup";
 import { useDispatch } from "react-redux";
 import { addInvoice, updateInvoice } from "../redux/invoicesSlice";
+import { addProduct } from "../redux/productSlice";
 import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 import generateRandomId from "../utils/generateRandomId";
 import { useInvoiceListData } from "../redux/hooks";
+import { useSelector } from "react-redux";
 
 const InvoiceForm = () => {
+  const productsState = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const params = useParams();
   const location = useLocation();
@@ -30,12 +33,12 @@ const InvoiceForm = () => {
     isEdit
       ? getOneInvoice(params.id)
       : isCopy && params.id
-      ? {
+        ? {
           ...getOneInvoice(params.id),
           id: generateRandomId(),
           invoiceNumber: listSize + 1,
         }
-      : {
+        : {
           id: generateRandomId(),
           currentDate: new Date().toLocaleDateString(),
           invoiceNumber: listSize + 1,
@@ -59,13 +62,12 @@ const InvoiceForm = () => {
               itemId: 0,
               itemName: "",
               itemDescription: "",
-              itemPrice: "1.00",
-              itemQuantity: 1,
+              itemPrice: "0.00",
+              itemQuantity: 0,
             },
           ],
         }
   );
-
   useEffect(() => {
     handleCalculateTotal();
   }, []);
@@ -84,16 +86,17 @@ const InvoiceForm = () => {
       itemId: id,
       itemName: "",
       itemDescription: "",
-      itemPrice: "1.00",
-      itemQuantity: 1,
+      itemPrice: "0.00",
+      itemQuantity: 0,
     };
     setFormData({
       ...formData,
       items: [...formData.items, newItem],
     });
+    dispatch(addProduct(formData.items))
     handleCalculateTotal();
   };
-
+  console.log(productsState[productsState.length-1], "productsState")
   const handleCalculateTotal = () => {
     setFormData((prevFormData) => {
       let subTotal = 0;
