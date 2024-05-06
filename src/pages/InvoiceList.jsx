@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useInvoiceListData } from "../redux/hooks";
 import { useDispatch } from "react-redux";
 import { deleteInvoice } from "../redux/invoicesSlice";
+import toast from "react-hot-toast";
 
 const InvoiceList = () => {
   const { invoiceList, getOneInvoice } = useInvoiceListData();
@@ -17,7 +18,7 @@ const InvoiceList = () => {
   const handleCopyClick = () => {
     const invoice = getOneInvoice(copyId);
     if (!invoice) {
-      alert("Please enter the valid invoice id.");
+      toast.error("Please enter the valid invoice id.");
     } else {
       navigate(`/create/${copyId}`);
     }

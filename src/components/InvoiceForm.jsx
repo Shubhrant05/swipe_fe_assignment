@@ -17,6 +17,7 @@ import generateRandomId from "../utils/generateRandomId";
 import { useInvoiceListData } from "../redux/hooks";
 import Freecurrencyapi from '@everapi/freecurrencyapi-js';
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 const InvoiceForm = () => {
   const productsState = useSelector((state) => state.products);
@@ -219,18 +220,18 @@ const InvoiceForm = () => {
 
   const handleAddInvoice = () => {
     if (!formData.dateOfIssue || !formData.billTo || !formData.billToEmail || !formData.billToAddress || !formData.billFrom || !formData.billFromEmail || !formData.billFromAddress) {
-      alert("Please fill all the required fields");
+      toast.error("Please fill all the required fields");
       return;
     }
     if (isEdit) {
       dispatch(updateInvoice({ id: params.id, updatedInvoice: formData }));
-      alert("Invoice updated successfuly 🥳");
+      toast.success("Invoice updated successfuly 🥳");
     } else if (isCopy) {
       dispatch(addInvoice({ id: generateRandomId(), ...formData }));
-      alert("Invoice added successfuly 🥳");
+      toast.success("Invoice added successfuly 🥳");
     } else {
       dispatch(addInvoice(formData));
-      alert("Invoice added successfuly 🥳");
+      toast.success("Invoice added successfuly 🥳");
     }
     navigate("/");
   };
@@ -244,7 +245,7 @@ const InvoiceForm = () => {
         invoiceNumber: formData?.invoiceNumber,
       });
     } else {
-      alert("Invoice does not exists!!!!!");
+      toast.error("Invoice does not exists!!!!!");
     }
   };
 

@@ -5,10 +5,11 @@ import Container from "react-bootstrap/Container";
 import { Route, Routes } from "react-router-dom";
 import Invoice from "./pages/Invoice";
 import InvoiceList from "./pages/InvoiceList";
-
+import { Toaster } from "react-hot-toast";
 const App = () => {
   return (
     <div className="App d-flex flex-column  w-100">
+      <Toaster />
       <Container>
         <Routes>
           <Route path="/" element={<InvoiceList />} />
