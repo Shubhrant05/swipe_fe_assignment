@@ -8,7 +8,6 @@ const productSlice = createSlice({
       state.push(action.payload);
     },
     deleteProduct: (state, action) => {
-      console.log(action.payload, "action.payload");
       const updatedState = state[state.length - 1].filter(
         (product) => product.itemId !== action.payload.itemId
       );
