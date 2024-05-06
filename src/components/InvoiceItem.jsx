@@ -1,14 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { BiTrash } from "react-icons/bi";
 import EditableField from "./EditableField";
-
+import { useSelector } from "react-redux";
 const InvoiceItem = (props) => {
   const { onItemizedItemEdit, currency, onRowDel, items, onRowAdd } = props;
+  const productsState = useSelector((state) => state.products);
+  const products = productsState[productsState?.length - 1];
 
-  const itemTable = items.map((item) => (
+  // useEffect(() => {
+  //   items.forEach((item) => {
+  //     const product = products?.find((product) => product.itemId === item.itemId);
+  //     if (product) {
+  //       item.itemName = product.itemName;
+  //       item.itemDescription = product.itemDescription;
+  //       item.itemPrice = product.itemPrice;
+  //       item.itemQuantity = product.itemQuantity;
+  //       item.itemPriceInDollar = product.itemPrice;
+  //     }
+  //   });
+  // }, [products])
+
+  const itemTable = items?.map((item) => (
     <ItemRow
       key={item.id}
       item={item}
@@ -18,8 +33,10 @@ const InvoiceItem = (props) => {
     />
   ));
 
+
   return (
     <div>
+      {/* <AddedItemTable/> */}
       <Table>
         <thead>
           <tr>
@@ -84,6 +101,7 @@ const ItemRow = (props) => {
             id: props.item.itemId,
           }}
         />
+
       </td>
       <td style={{ minWidth: "130px" }}>
         <EditableField

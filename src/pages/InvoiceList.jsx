@@ -27,7 +27,7 @@ const InvoiceList = () => {
     <Row>
       <Col className="mx-auto" xs={12} md={8} lg={9}>
         <h3 className="fw-bold pb-2 pb-md-4 text-center">Swipe Assignment</h3>
-        <Card className="d-flex p-3 p-md-4 my-3 my-md-4 ">
+        <Card className="p-3 p-md-4 my-3 my-md-4">
           {isListEmpty ? (
             <div className="d-flex flex-column align-items-center">
               <h3 className="fw-bold pb-2 pb-md-4">No invoices present</h3>
@@ -37,17 +37,17 @@ const InvoiceList = () => {
             </div>
           ) : (
             <div className="d-flex flex-column">
-              <div className="d-flex flex-row align-items-center justify-content-between">
+              <div className="d-flex flex-md-row flex-column align-items-center justify-content-between">
                 <h3 className="fw-bold pb-2 pb-md-4">Invoice List</h3>
-                <Link to="/create">
-                  <Button variant="primary mb-2 mb-md-4">Create Invoice</Button>
-                </Link>
-
+                <div className="mb-2 mb-md-0">
+                  <Link to="/create">
+                    <Button variant="primary mb-2 mb-md-4">Create Invoice</Button>
+                  </Link>
+                </div>
                 <div className="d-flex gap-2">
                   <Button variant="dark mb-2 mb-md-4" onClick={handleCopyClick}>
                     Copy Invoice
                   </Button>
-
                   <input
                     type="text"
                     value={copyId}
@@ -72,17 +72,13 @@ const InvoiceList = () => {
                 </thead>
                 <tbody>
                   {invoiceList.map((invoice) => (
-                    <InvoiceRow
-                      key={invoice.id}
-                      invoice={invoice}
-                      navigate={navigate}
-                    />
+                    <InvoiceRow key={invoice.id} invoice={invoice} navigate={navigate} />
                   ))}
                 </tbody>
               </Table>
             </div>
           )}
-        </Card>
+        </Card>;
       </Col>
     </Row>
   );

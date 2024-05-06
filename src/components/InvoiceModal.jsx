@@ -8,8 +8,10 @@ import Modal from "react-bootstrap/Modal";
 import { BiPaperPlane, BiCloudDownload } from "react-icons/bi";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { useSelector } from "react-redux";
 
 const GenerateInvoice = () => {
+
   html2canvas(document.querySelector("#invoiceCapture")).then((canvas) => {
     const imgData = canvas.toDataURL("image/png", 1.0);
     const pdf = new jsPDF({
@@ -27,6 +29,9 @@ const GenerateInvoice = () => {
 };
 
 const InvoiceModal = (props) => {
+  const productsState = useSelector((state) => state.products);
+  const items = productsState[productsState?.length - 1];
+
   return (
     <div>
       <Modal
@@ -85,7 +90,7 @@ const InvoiceModal = (props) => {
                 </tr>
               </thead>
               <tbody>
-                {props.items.map((item, i) => {
+                {items?.map((item, i) => {
                   return (
                     <tr id={i} key={i}>
                       <td style={{ width: "70px" }}>{item.itemQuantity}</td>
@@ -116,7 +121,7 @@ const InvoiceModal = (props) => {
                     TAX
                   </td>
                   <td className="text-end" style={{ width: "100px" }}>
-                    {props.currency} {props.taxAmmount}
+                    {props.currency} {props.taxAmount === undefined ? "0.00" : props.taxAmount}
                   </td>
                 </tr>
                 {props.discountAmmount !== 0.0 && (
@@ -126,7 +131,7 @@ const InvoiceModal = (props) => {
                       DISCOUNT
                     </td>
                     <td className="text-end" style={{ width: "100px" }}>
-                      {props.currency} {props.discountAmmount}
+                      {props.currency} {props.discountAmount === undefined ? "0.00" : props.discountAmount}
                     </td>
                   </tr>
                 )}
